@@ -36,30 +36,44 @@
           {id: 10, name: 'J', value: 3, stop:false, arrow: false}
         ],
         interval: setInterval(this.addition, 2000),
-      };
-    },
-    computed: {
-    },
-    watch: {
-
+        signs: ['+', '-'],
+        logs: [
+          {id: 1, name: 'A', val: []},
+          {id: 2, name: 'B', val: []},
+          {id: 3, name: 'C', val: []},
+          {id: 4, name: 'D', val: []},
+          {id: 5, name: 'E', val: []},
+          {id: 6, name: 'F', val: []},
+          {id: 7, name: 'G', val: []},
+          {id: 8, name: 'H', val: []},
+          {id: 9, name: 'I', val: []},
+          {id: 10, name: 'J', val: []}
+        ]
+      }
     },
     methods: {
       addition() {
         this.cards.forEach(element => {
           if(!element.stop) {
             const last = element.value
-            element.value = Number(Math.round(Math.random() * 1 + 1)
-            );
+            let sign = this.signs[Math.round(Math.random())]
+            element.value = Number(sign + (Math.random() + 1).toFixed(2))
             element.arrow = last < element.value
+            this.logs.forEach(log => {
+              if (log.id == element.id) {
+                log.val.push(element.value)
+              }
+            })
           }
         })
+        localStorage.setItem('logs', JSON.stringify(this.logs))
       },
       stopInterval(index) {
         this.cards[index].stop = !this.cards[index].stop
       },
     },
-    mounted() {
-      // console.log(this.randomNumber);
+    destroyed() {
+      clearInterval(this.interval)
     },
   };
 </script>
