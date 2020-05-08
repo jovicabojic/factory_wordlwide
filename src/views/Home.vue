@@ -6,9 +6,9 @@
             <p>{{card.value}}</p>
             <i v-if="card.arrow" class="fa fa-arrow-up" aria-hidden="true"></i>
             <i v-else class="fa fa-arrow-down" aria-hidden="true"></i>
-            <div @click="stopInterval(index)" class="button r" id="button-1">
+            <div @click="stopInterval(index)" class="button rounded" id="button">
               <input type="checkbox" class="checkbox">
-              <div class="knobs"></div>
+              <div class="circle"></div>
               <div class="layer"></div>
             </div>
           </div>
@@ -59,11 +59,13 @@
             let sign = this.signs[Math.round(Math.random())]
             element.value = Number(sign + (Math.random() + 1).toFixed(2))
             element.arrow = last < element.value
-            this.logs.forEach(log => {
-              if (log.id == element.id) {
-                log.val.push(element.value)
-              }
-            })
+            // this.logs.forEach(log => {
+            //   if (log.id == element.id) {
+            //     log.val.push(element.value)
+            //   }
+            // })
+            let log = this.logs.filter(log => log.id === element.id)
+            log[0].val.push(element.value)
           }
         })
         localStorage.setItem('logs', JSON.stringify(this.logs))
